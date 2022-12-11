@@ -3,27 +3,25 @@ import { getFromStorage } from '../other/localeStorageServices';
 
 function localStorageFunction(movieData) {
   const filmObject = JSON.stringify(movieData);
+
   const isLibraryPage = location.pathname.includes('library');
   const cartItem = document.querySelector(`[data-id="${movieData.id}"]`);
 
   const watchBtn = document.querySelector('[data-action="watch"]');
   const queueBtn = document.querySelector('[data-action="queue"]');
 
+  const getWatchedMovies = localStorage.getItem('watch') || [];
+  const getQueueMovies = localStorage.getItem('queue') || [];
+
   watchBtn.addEventListener('click', addWatch);
   queueBtn.addEventListener('click', addQueue);
 
-  if (
-    localStorage.getItem('watch').includes(filmObject) &&
-    localStorage.getItem('watch').length > 2
-  ) {
+  if (getWatchedMovies.includes(filmObject) && getWatchedMovies.length > 2) {
     watchBtn.classList.add('button--accent-btn');
     watchBtn.textContent = 'REMOVE FROM WATCHED';
   }
 
-  if (
-    localStorage.getItem('queue').includes(filmObject) &&
-    localStorage.getItem('queue').length > 2
-  ) {
+  if (getQueueMovies.includes(filmObject) && getQueueMovies.length > 2) {
     queueBtn.classList.add('button--accent-btn');
     queueBtn.textContent = 'REMOVE FROM QUEUE';
   }
